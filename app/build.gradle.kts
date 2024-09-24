@@ -1,6 +1,10 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.android.application)
+    alias(notation = libs.plugins.jetbrains.kotlin.android)
+    alias(notation = libs.plugins.ksp)
+    alias(notation = libs.plugins.hilt.android)
+    alias(notation = libs.plugins.kotlinx.serialization)
+    alias(notation = libs.plugins.compose.compiler)
 }
 
 android {
@@ -50,7 +54,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -66,4 +69,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(dependencyNotation = libs.androidx.navigation.compose)
+    implementation(dependencyNotation = libs.hilt.android)
+    implementation(dependencyNotation = libs.hilt.navigation.compose)
+    ksp(dependencyNotation = libs.hilt.compiler)
+    implementation(dependencyNotation = libs.retrofit2)
+    implementation(dependencyNotation = libs.converter.serialization)
+    implementation(dependencyNotation = libs.okhttp3)
+    implementation(dependencyNotation = libs.kotlin.serialization)
 }
