@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ddd.attendance.ui.theme.DDD_400
 import com.ddd.attendance.ui.theme.DDD_600
 import com.ddd.attendance.ui.theme.DDD_BLACK
@@ -46,6 +47,7 @@ fun DDDButton(
             } else {
                 DDD_400
             },
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
     }
