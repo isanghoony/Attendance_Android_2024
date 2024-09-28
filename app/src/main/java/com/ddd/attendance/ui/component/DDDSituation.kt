@@ -64,7 +64,7 @@ private fun SituationInfo(
         DDDText(
             text = "${count}회",
             fontSize = 18.sp,
-            fontWeight = FontWeight.W700,
+            fontWeight = FontWeight.Bold,
             color = DDD_WHITE
         )
     }
