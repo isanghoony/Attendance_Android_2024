@@ -21,20 +21,33 @@ import com.ddd.attendance.ui.theme.DDD_400
 
 @Composable
 fun DDDTopBar(
+    modifier: Modifier = Modifier,
     type: TopBarType = TopBarType.LEFT_IMAGE,
     @DrawableRes rightImageResource: Int = 0,
     rightText: String = "",
     drawableResourceList: List<Int> = emptyList()
 ) {
     when (type) {
-        TopBarType.LEFT_IMAGE -> DDDTopBar(isVisibleRightImage = false)
+        TopBarType.LEFT_IMAGE -> DDDTopBar(
+            isVisibleRightImage = false,
+            modifier = modifier
+        )
+
         TopBarType.LEFT_RIGHT_IMAGE -> DDDTopBar(
+            modifier = modifier,
             isVisibleRightImage = true,
             rightImageResource = rightImageResource
         )
 
-        TopBarType.LEFT_IMAGE_RIGHT_TEXT -> TextTopBar(text = rightText)
-        TopBarType.IMAGE -> NonBackButtonTopBar(drawableResourceList = drawableResourceList)
+        TopBarType.LEFT_IMAGE_RIGHT_TEXT -> TextTopBar(
+            text = rightText,
+            modifier = modifier
+        )
+
+        TopBarType.IMAGE -> NonBackButtonTopBar(
+            drawableResourceList = drawableResourceList,
+            modifier = modifier
+        )
     }
 }
 
@@ -66,9 +79,12 @@ private fun DDDTopBar(
 }
 
 @Composable
-private fun NonBackButtonTopBar(drawableResourceList: List<Int>) {
+private fun NonBackButtonTopBar(
+    drawableResourceList: List<Int>,
+    modifier: Modifier = Modifier,
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height = 56.dp)
     ) {
@@ -83,9 +99,12 @@ private fun NonBackButtonTopBar(drawableResourceList: List<Int>) {
 }
 
 @Composable
-private fun TextTopBar(text: String) {
+private fun TextTopBar(
+    text: String,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height = 56.dp)
             .padding(all = 8.dp)
