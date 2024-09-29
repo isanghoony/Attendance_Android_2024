@@ -2,6 +2,7 @@ package com.ddd.attendance.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,23 +26,31 @@ fun DDDTopBar(
     type: TopBarType = TopBarType.LEFT_IMAGE,
     @DrawableRes rightImageResource: Int = 0,
     rightText: String = "",
-    drawableResourceList: List<Int> = emptyList()
+    drawableResourceList: List<Int> = emptyList(),
+    onClickLeftImage: () -> Unit = {},
+    onClickRightImage: () -> Unit = {},
+    onClickRightText: () -> Unit = {}
 ) {
     when (type) {
         TopBarType.LEFT_IMAGE -> DDDTopBar(
             isVisibleRightImage = false,
-            modifier = modifier
+            modifier = modifier,
+            onClickLeftImage = onClickLeftImage
         )
 
         TopBarType.LEFT_RIGHT_IMAGE -> DDDTopBar(
             modifier = modifier,
             isVisibleRightImage = true,
-            rightImageResource = rightImageResource
+            rightImageResource = rightImageResource,
+            onClickLeftImage = onClickLeftImage,
+            onClickRightImage = onClickRightImage
         )
 
         TopBarType.LEFT_IMAGE_RIGHT_TEXT -> TextTopBar(
             text = rightText,
-            modifier = modifier
+            modifier = modifier,
+            onClickLeftImage = onClickLeftImage,
+            onClickRightText = onClickRightText
         )
 
         TopBarType.IMAGE -> NonBackButtonTopBar(
@@ -55,7 +64,9 @@ fun DDDTopBar(
 private fun DDDTopBar(
     isVisibleRightImage: Boolean,
     modifier: Modifier = Modifier,
-    @DrawableRes rightImageResource: Int = 0
+    @DrawableRes rightImageResource: Int = 0,
+    onClickLeftImage: () -> Unit = {},
+    onClickRightImage: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -66,13 +77,17 @@ private fun DDDTopBar(
         Image(
             painter = painterResource(id = R.drawable.ic_40_back),
             contentDescription = null,
-            modifier = Modifier.align(alignment = Alignment.CenterStart)
+            modifier = Modifier
+                .align(alignment = Alignment.CenterStart)
+                .clickable(onClick = onClickLeftImage)
         )
         if (isVisibleRightImage) {
             Image(
                 painter = painterResource(id = rightImageResource),
                 contentDescription = null,
-                modifier = Modifier.align(alignment = Alignment.CenterEnd)
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterEnd)
+                    .clickable(onClick = onClickRightImage)
             )
         }
     }
@@ -101,7 +116,9 @@ private fun NonBackButtonTopBar(
 @Composable
 private fun TextTopBar(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickLeftImage: () -> Unit = {},
+    onClickRightText: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -112,11 +129,15 @@ private fun TextTopBar(
         Image(
             painter = painterResource(id = R.drawable.ic_40_back),
             contentDescription = null,
-            modifier = Modifier.align(alignment = Alignment.CenterStart)
+            modifier = Modifier
+                .align(alignment = Alignment.CenterStart)
+                .clickable(onClick = onClickLeftImage)
         )
         DDDText(
             text = text,
-            modifier = Modifier.align(alignment = Alignment.CenterEnd),
+            modifier = Modifier
+                .align(alignment = Alignment.CenterEnd)
+                .clickable(onClick = onClickRightText),
             color = DDD_400,
             fontSize = 16.sp,
             fontWeight = FontWeight.W500

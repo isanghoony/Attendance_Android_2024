@@ -2,6 +2,7 @@ package com.ddd.attendance.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,12 +20,16 @@ import com.ddd.attendance.ui.theme.DDD_300
 import com.ddd.attendance.ui.theme.DDD_BLACK
 
 @Composable
-fun LoginScreen() {
-    Content()
+fun LoginScreen(
+    onClickGoogle: () -> Unit
+) {
+    Content(onClickGoogle = onClickGoogle)
 }
 
 @Composable
-private fun Content() {
+private fun Content(
+    onClickGoogle: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +44,8 @@ private fun Content() {
             text = "Google로 계속하기",
             modifier = Modifier
                 .align(alignment = Alignment.BottomCenter)
-                .padding(bottom = 24.dp),
+                .padding(bottom = 24.dp)
+                .clickable(onClick = onClickGoogle),
             color = DDD_300,
             fontWeight = FontWeight.W500,
             fontSize = 16.sp
@@ -50,5 +56,5 @@ private fun Content() {
 @Preview(name = "Content")
 @Composable
 private fun P1() {
-    Content()
+    Content{}
 }

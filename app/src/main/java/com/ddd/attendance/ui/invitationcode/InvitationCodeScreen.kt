@@ -2,6 +2,7 @@ package com.ddd.attendance.ui.invitationcode
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,18 +35,30 @@ import com.ddd.attendance.ui.theme.DDD_ERROR
 import com.ddd.attendance.ui.theme.DDD_WHITE
 
 @Composable
-fun InvitationCodeScreen() {
-    Content()
+fun InvitationCodeScreen(
+    onClickBackButton: () -> Unit,
+    onClickSignup: () -> Unit
+) {
+    Content(
+        onClickBackButton = onClickBackButton,
+        onClickSignup = onClickSignup
+    )
 }
 
 @Composable
-private fun Content() {
+private fun Content(
+    onClickBackButton: () -> Unit,
+    onClickSignup: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = DDD_BLACK)
     ) {
-        DDDTopBar(type = TopBarType.LEFT_IMAGE)
+        DDDTopBar(
+            type = TopBarType.LEFT_IMAGE,
+            onClickLeftImage = onClickBackButton
+        )
         Spacer(modifier = Modifier.height(height = 54.dp))
         DDDText(
             text = "초대코드를 입력해주세요",
@@ -68,7 +81,9 @@ private fun Content() {
         Spacer(modifier = Modifier.weight(weight = 1f))
         DDDButton(
             text = "가입하기",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth(),
+            onClick = onClickSignup
         )
     }
 }
@@ -118,7 +133,10 @@ private fun DDDInputText(
 @Preview(name = "Content")
 @Composable
 private fun P1() {
-    Content()
+    Content(
+        onClickSignup = {},
+        onClickBackButton = {}
+    )
 }
 
 @Preview(name = "코드가 일치하지 않을 경우")

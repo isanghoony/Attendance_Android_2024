@@ -2,6 +2,7 @@ package com.ddd.attendance.ui.name
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,18 +35,30 @@ import com.ddd.attendance.ui.theme.DDD_BLACK
 import com.ddd.attendance.ui.theme.DDD_WHITE
 
 @Composable
-fun NameScreen() {
-    Content()
+fun NameScreen(
+    onClickBackButton: () -> Unit,
+    onClickNext: () -> Unit
+) {
+    Content(
+        onClickBackButton = onClickBackButton,
+        onClickNext = onClickNext
+    )
 }
 
 @Composable
-private fun Content() {
+private fun Content(
+    onClickBackButton: () -> Unit,
+    onClickNext: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = DDD_BLACK)
     ) {
-        DDDTopBar(type = TopBarType.LEFT_IMAGE)
+        DDDTopBar(
+            type = TopBarType.LEFT_IMAGE,
+            onClickLeftImage = onClickBackButton
+        )
         Spacer(modifier = Modifier.height(height = 54.dp))
         DDDText(
             text = "이름이 어떻게 되시나요?",
@@ -78,7 +91,9 @@ private fun Content() {
         Spacer(modifier = Modifier.weight(weight = 1f))
         DDDButton(
             text = "다음",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClickNext)
         )
     }
 }
@@ -117,5 +132,8 @@ private fun DDDInputText(
 @Preview(name = "Content")
 @Composable
 private fun P1() {
-    Content()
+    Content(
+        onClickBackButton = {},
+        onClickNext = {}
+    )
 }
