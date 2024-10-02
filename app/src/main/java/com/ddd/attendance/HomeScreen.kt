@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ddd.attendance.ui.invitationcode.InvitationCodeScreen
-import com.ddd.attendance.ui.login.LoginScreen
-import com.ddd.attendance.ui.name.NameScreen
+import com.ddd.attendance.ui.screen.invitationcode.InvitationCodeScreen
+import com.ddd.attendance.ui.screen.login.LoginScreen
+import com.ddd.attendance.ui.screen.name.NameScreen
 import com.ddd.attendance.ui.theme.DDD_BLACK
 
 @Composable

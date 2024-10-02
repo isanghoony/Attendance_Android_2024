@@ -1,4 +1,4 @@
-package com.ddd.attendance.ui.name
+package com.ddd.attendance.ui.screen.name
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

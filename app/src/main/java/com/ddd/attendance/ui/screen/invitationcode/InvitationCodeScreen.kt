@@ -1,4 +1,4 @@
-package com.ddd.attendance.ui.invitationcode
+package com.ddd.attendance.ui.screen.invitationcode
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
