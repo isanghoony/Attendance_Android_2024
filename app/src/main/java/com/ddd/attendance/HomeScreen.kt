@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ddd.attendance.ui.screen.invitationcode.InvitationCodeScreen
+import com.ddd.attendance.ui.screen.job.JobScreen
 import com.ddd.attendance.ui.screen.login.LoginScreen
 import com.ddd.attendance.ui.screen.name.NameScreen
 import com.ddd.attendance.ui.theme.DDD_BLACK
@@ -47,9 +48,12 @@ fun HomeScreen() {
                         navController.popBackStack()
                     },
                     onClickNext = {
-
+                        navController.navigate(route = ScreenName.JOB.name)
                     }
                 )
+            }
+            composable(route = ScreenName.JOB.name) {
+                JobScreen(navController = navController)
             }
         }
     }
@@ -58,5 +62,6 @@ fun HomeScreen() {
 enum class ScreenName {
     LOGIN,
     INVITATION_CODE,
-    NAME
+    NAME,
+    JOB
 }

@@ -91,9 +91,8 @@ private fun Content(
         Spacer(modifier = Modifier.weight(weight = 1f))
         DDDButton(
             text = "다음",
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onClickNext)
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onClickNext
         )
     }
 }
