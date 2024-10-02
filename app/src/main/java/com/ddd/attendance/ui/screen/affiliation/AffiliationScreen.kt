@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ddd.attendance.ui.LoginProcessViewModel
 import com.ddd.attendance.ui.component.DDDButton
 import com.ddd.attendance.ui.component.DDDText
 import com.ddd.attendance.ui.component.DDDTopBar
@@ -27,13 +28,17 @@ import com.ddd.attendance.ui.theme.DDD_BLACK
 import com.ddd.attendance.ui.theme.DDD_WHITE
 
 @Composable
-fun AffiliationScreen(navController: NavController) {
+fun AffiliationScreen(
+    navController: NavController,
+    viewModel: LoginProcessViewModel
+) {
     Content(
         onClickBackButton = {
             navController.popBackStack()
         },
         onClickNext = {
             // 어디로 가야하는가~
+            viewModel.onClickNextFromUserAffiliation()
         }
     )
 }

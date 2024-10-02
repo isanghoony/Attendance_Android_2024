@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ddd.attendance.ui.LoginProcessViewModel
 import com.ddd.attendance.ui.ScreenName
 import com.ddd.attendance.ui.component.DDDButton
 import com.ddd.attendance.ui.component.DDDText
@@ -29,10 +30,12 @@ import com.ddd.attendance.ui.theme.DDD_WHITE
 
 @Composable
 fun JobScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: LoginProcessViewModel
 ) {
     Content(
         onClickNext = {
+            viewModel.onClickNextFromUserJob()
             navController.navigate(route = ScreenName.AFFILIATION.name)
         },
         onClickBackButton = {

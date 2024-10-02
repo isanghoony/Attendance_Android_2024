@@ -31,35 +31,34 @@ fun LoginProcessScreen() {
             startDestination = ScreenName.LOGIN.name
         ) {
             composable(route = ScreenName.LOGIN.name) {
-                LoginScreen {
-                    navController.navigate(route = ScreenName.INVITATION_CODE.name)
-                }
+                LoginScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
             composable(route = ScreenName.INVITATION_CODE.name) {
                 InvitationCodeScreen(
-                    onClickBackButton = {
-                        navController.popBackStack()
-                    },
-                    onClickSignup = {
-                        navController.navigate(route = ScreenName.NAME.name)
-                    }
+                    navController = navController,
+                    viewModel = viewModel
                 )
             }
             composable(route = ScreenName.NAME.name) {
                 NameScreen(
-                    onClickBackButton = {
-                        navController.popBackStack()
-                    },
-                    onClickNext = {
-                        navController.navigate(route = ScreenName.JOB.name)
-                    }
+                    navController = navController,
+                    viewModel = viewModel
                 )
             }
             composable(route = ScreenName.JOB.name) {
-                JobScreen(navController = navController)
+                JobScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
             composable(route = ScreenName.AFFILIATION.name) {
-                AffiliationScreen(navController = navController)
+                AffiliationScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
         }
     }

@@ -25,7 +25,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.ddd.attendance.R
+import com.ddd.attendance.ui.LoginProcessViewModel
+import com.ddd.attendance.ui.ScreenName
 import com.ddd.attendance.ui.component.DDDButton
 import com.ddd.attendance.ui.component.DDDText
 import com.ddd.attendance.ui.component.DDDTopBar
@@ -36,12 +39,17 @@ import com.ddd.attendance.ui.theme.DDD_WHITE
 
 @Composable
 fun NameScreen(
-    onClickBackButton: () -> Unit,
-    onClickNext: () -> Unit
+    navController: NavController,
+    viewModel: LoginProcessViewModel
 ) {
     Content(
-        onClickBackButton = onClickBackButton,
-        onClickNext = onClickNext
+        onClickBackButton = {
+            navController.popBackStack()
+        },
+        onClickNext = {
+            viewModel.onClickNextFromUserName()
+            navController.navigate(route = ScreenName.JOB.name)
+        }
     )
 }
 

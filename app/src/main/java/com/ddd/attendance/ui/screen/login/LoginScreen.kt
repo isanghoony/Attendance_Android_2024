@@ -14,16 +14,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.ddd.attendance.R
+import com.ddd.attendance.ui.LoginProcessViewModel
+import com.ddd.attendance.ui.ScreenName
 import com.ddd.attendance.ui.component.DDDText
 import com.ddd.attendance.ui.theme.DDD_300
 import com.ddd.attendance.ui.theme.DDD_BLACK
 
 @Composable
 fun LoginScreen(
-    onClickGoogle: () -> Unit
+    navController: NavController,
+    viewModel: LoginProcessViewModel,
 ) {
-    Content(onClickGoogle = onClickGoogle)
+    Content(
+        onClickGoogle = {
+            viewModel.onClickGoogleLogin()
+            navController.navigate(route = ScreenName.INVITATION_CODE.name)
+        }
+    )
 }
 
 @Composable
