@@ -35,8 +35,8 @@ fun DDDSelector(
                 color = if (selected) DDD_NEUTRAL_BLUE_10 else DDD_NEUTRAL_GRAY_90,
                 shape = RoundedCornerShape(16.dp)
             )
-            .padding(horizontal = 20.dp, vertical = 16.dp)
             .clickable { onClick(true) }
+            .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
         Text(
             text = text,
@@ -45,7 +45,7 @@ fun DDDSelector(
             color = if (selected) DDD_NEUTRAL_GRAY_90 else DDD_WHITE
         )
         Icon(
-            painter = painterResource(id = if (selected) R.drawable.ic_40_add else R.drawable.ic_40_logo),
+            painter = painterResource(id = if (selected) R.drawable.ic_select_on else R.drawable.ic_select_off),
             contentDescription = "",
             modifier = Modifier.align(Alignment.CenterEnd)
         )
