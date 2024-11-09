@@ -3,6 +3,7 @@ package com.ddd.attendance.ui.screen.name
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
@@ -128,10 +130,12 @@ private fun DDDInputText(
         textStyle = TextStyle(
             color = DDD_WHITE,
             fontSize = 16.sp,
-        )
+        ),
+        maxLines = 1
     ) { innerTextField ->
         Box(modifier = Modifier
             .fillMaxWidth()
+            .requiredHeight(56.dp)
             .border(
                 width = 1.dp,
                 color = DDD_BORDER_INACTIVE,
@@ -142,11 +146,16 @@ private fun DDDInputText(
             Box(modifier = Modifier.align(Alignment.CenterStart)) {
                 innerTextField()
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_24_code_clear),
-                contentDescription = null,
-                modifier = Modifier.align(alignment = Alignment.CenterEnd),
-            )
+            if (value.text.isNotEmpty()) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterEnd)
+                        .clickable { onValueChanged(TextFieldValue("")) }
+                    ,
+                )
+            }
         }
     }
 }
