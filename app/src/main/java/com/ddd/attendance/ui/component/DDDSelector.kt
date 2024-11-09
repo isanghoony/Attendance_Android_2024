@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.attendance.R
+import com.ddd.attendance.ui.theme.DDD_NEUTRAL_BLUE_10
 import com.ddd.attendance.ui.theme.DDD_NEUTRAL_BLUE_40
 import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_90
 import com.ddd.attendance.ui.theme.DDD_WHITE
@@ -31,25 +32,17 @@ fun DDDSelector(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = DDD_NEUTRAL_GRAY_90,
+                color = if (selected) DDD_NEUTRAL_BLUE_10 else DDD_NEUTRAL_GRAY_90,
                 shape = RoundedCornerShape(16.dp)
-            )
-            .then(
-                if (selected) Modifier.border(
-                    width = 2.dp,
-                    color = DDD_NEUTRAL_BLUE_40,
-                    shape = RoundedCornerShape(16.dp)
-                ) else Modifier
             )
             .padding(horizontal = 20.dp, vertical = 16.dp)
             .clickable { onClick(true) }
-
     ) {
         Text(
             text = text,
             modifier = Modifier.align(Alignment.CenterStart),
             fontSize = 18.sp,
-            color = DDD_WHITE
+            color = if (selected) DDD_NEUTRAL_GRAY_90 else DDD_WHITE
         )
         Icon(
             painter = painterResource(id = if (selected) R.drawable.ic_40_add else R.drawable.ic_40_logo),
