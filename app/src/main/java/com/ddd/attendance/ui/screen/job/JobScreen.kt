@@ -1,8 +1,7 @@
 package com.ddd.attendance.ui.screen.job
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -69,11 +68,13 @@ private fun Content(
 
     Scaffold(
         topBar = {
-            DDDTopBar(
-                type = TopBarType.LEFT_IMAGE,
-                onClickLeftImage = onClickBackButton
-            )
-            Spacer(modifier = Modifier.height(54.dp))
+            Column {
+                DDDTopBar(
+                    type = TopBarType.LEFT_IMAGE,
+                    onClickLeftImage = onClickBackButton
+                )
+                Spacer(modifier = Modifier.height(54.dp))
+            }
         },
         bottomBar = {
             DDDNextButton(
