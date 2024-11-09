@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +31,8 @@ fun DDDTopBar(
     drawableResourceList: List<Int> = emptyList(),
     onClickLeftImage: () -> Unit = {},
     onClickRightImage: () -> Unit = {},
-    onClickRightText: () -> Unit = {}
+    onClickRightText: () -> Unit = {},
+    center: @Composable (Modifier) -> Unit = {}
 ) {
     when (type) {
         TopBarType.LEFT_IMAGE -> DDDTopBar(
@@ -44,6 +47,13 @@ fun DDDTopBar(
             rightImageResource = rightImageResource,
             onClickLeftImage = onClickLeftImage,
             onClickRightImage = onClickRightImage
+        )
+
+        TopBarType.LEFT_IMAGE_CENTER -> DDDTopBar(
+            modifier = modifier,
+            onClickLeftImage = onClickLeftImage,
+            isVisibleRightImage = false,
+            center = center,
         )
 
         TopBarType.LEFT_IMAGE_RIGHT_TEXT -> TextTopBar(
@@ -66,29 +76,44 @@ private fun DDDTopBar(
     modifier: Modifier = Modifier,
     @DrawableRes rightImageResource: Int = 0,
     onClickLeftImage: () -> Unit = {},
-    onClickRightImage: () -> Unit = {}
+    onClickRightImage: () -> Unit = {},
+    center: @Composable (Modifier) -> Unit = {},
 ) {
-    Box(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .height(height = 56.dp)
-            .padding(all = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_40_back),
-            contentDescription = null,
-            modifier = Modifier
-                .align(alignment = Alignment.CenterStart)
-                .clickable(onClick = onClickLeftImage)
-        )
-        if (isVisibleRightImage) {
+        Box(modifier = Modifier.size(40.dp)) {
             Image(
-                painter = painterResource(id = rightImageResource),
+                painter = painterResource(id = R.drawable.ic_40_back),
                 contentDescription = null,
                 modifier = Modifier
-                    .align(alignment = Alignment.CenterEnd)
-                    .clickable(onClick = onClickRightImage)
+                    .clickable(onClick = onClickLeftImage)
             )
+        }
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        center(Modifier.weight(1f))
+        /*DDDProgressbar(
+            modifier = Modifier.weight(1f),
+            current = 1
+        )*/
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Box(modifier = Modifier.size(40.dp)) {
+            if (isVisibleRightImage) {
+                Image(
+                    painter = painterResource(id = rightImageResource),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable(onClick = onClickRightImage)
+                )
+            }
         }
     }
 }
@@ -149,6 +174,7 @@ enum class TopBarType {
     LEFT_IMAGE,
     LEFT_RIGHT_IMAGE,
     LEFT_IMAGE_RIGHT_TEXT,
+    LEFT_IMAGE_CENTER,
     IMAGE
 }
 

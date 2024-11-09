@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.attendance.ui.LoginProcessViewModel
 import com.ddd.attendance.ui.component.DDDNextButton
+import com.ddd.attendance.ui.component.DDDProgressbar
 import com.ddd.attendance.ui.component.DDDSelector
 import com.ddd.attendance.ui.component.DDDText
 import com.ddd.attendance.ui.component.DDDTopBar
@@ -72,8 +73,14 @@ private fun Content(
         topBar = {
             Column {
                 DDDTopBar(
-                    type = TopBarType.LEFT_IMAGE,
+                    type = TopBarType.LEFT_IMAGE_CENTER,
                     onClickLeftImage = onClickBackButton,
+                    center = {
+                        DDDProgressbar(
+                            modifier = Modifier.then(it),
+                            current = 3
+                        )
+                    }
                 )
                 Spacer(modifier = Modifier.height(54.dp))
             }
