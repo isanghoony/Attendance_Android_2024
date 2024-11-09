@@ -25,6 +25,7 @@ val DDD_NEUTRAL_RED = Color(color = 0xFFFFE7E6)
 val DDD_BORDER_INACTIVE = Color(color = 0xFFC6C6C6)
 
 val DDD_NEUTRAL_GRAY_20 = Color(color = 0xFFEAEAEA)
+val DDD_NEUTRAL_GRAY_80 = Color(color = 0xFF323537)
 val DDD_NEUTRAL_GRAY_90 = Color(color = 0xFF202325)
 
 val DDD_NEUTRAL_BLUE_40 = Color(color = 0xFF0D82F9)

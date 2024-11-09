@@ -31,6 +31,7 @@ import com.ddd.attendance.R
 import com.ddd.attendance.ui.LoginProcessViewModel
 import com.ddd.attendance.ui.ScreenName
 import com.ddd.attendance.ui.component.DDDNextButton
+import com.ddd.attendance.ui.component.DDDProgressbar
 import com.ddd.attendance.ui.component.DDDText
 import com.ddd.attendance.ui.component.DDDTopBar
 import com.ddd.attendance.ui.component.TopBarType
@@ -73,8 +74,14 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DDDTopBar(
-            type = TopBarType.LEFT_IMAGE,
-            onClickLeftImage = onClickBackButton
+            type = TopBarType.LEFT_IMAGE_CENTER,
+            onClickLeftImage = onClickBackButton,
+            center = {
+                DDDProgressbar(
+                    modifier = Modifier.then(it),
+                    current = 1
+                )
+            }
         )
         Spacer(modifier = Modifier.height(height = 54.dp))
         DDDText(
