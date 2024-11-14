@@ -1,4 +1,4 @@
-package com.ddd.attendance.ui.screen.main
+package com.ddd.attendance.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
