@@ -11,5 +11,6 @@
     <string name="member_welcome">반갑습니다👋</string>
     <string name="member_admin_greeting">반가워요👋</string>
     <string name="member_total_people">총원%s명</string>
+    <string name="member_times">%s회</string>
 
 </resources>
