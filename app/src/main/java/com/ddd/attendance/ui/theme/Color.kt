@@ -30,3 +30,4 @@ val DDD_NEUTRAL_GRAY_90 = Color(color = 0xFF202325)
 
 val DDD_NEUTRAL_BLUE_10 = Color(color = 0xFFF5F8FF)
 val DDD_NEUTRAL_BLUE_40 = Color(color = 0xFF0D82F9)
+val DDD_NEUTRAL_ORANGE_40 = Color(color = 0xFFFD5D08)

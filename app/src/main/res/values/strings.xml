@@ -12,5 +12,5 @@
     <string name="member_admin_greeting">반가워요👋</string>
     <string name="member_total_people">총원%s명</string>
     <string name="member_times">%s회</string>
-
+    <string name="member_qr_scan_request">QR스캔으로 출석하세요</string>
 </resources>

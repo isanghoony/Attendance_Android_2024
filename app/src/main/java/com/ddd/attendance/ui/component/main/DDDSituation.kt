@@ -156,13 +156,13 @@ fun DDDSituationItem(
 
 @Preview(name = "출석 현황 텍스트")
 @Composable
-fun P1() {
+private fun P1() {
     AttendanceStatusRow()
 }
 
 @Preview(name = "출석 아이템")
 @Composable
-fun P2() {
+private fun P2() {
     DDDSituationItem(
         image = painterResource(R.drawable.ic_check),
         count = 3,
