@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.ddd.attendance.R
 import com.ddd.attendance.ui.MainViewModel
 import com.ddd.attendance.ui.component.DDDText
-import com.ddd.attendance.ui.component.main.DDDSituation
+import com.ddd.attendance.ui.component.main.DDDMemberSituation
 import com.ddd.attendance.ui.component.main.DDDToolTip
 import com.ddd.attendance.ui.theme.DDD_BLACK
 import com.ddd.attendance.ui.theme.DDD_BORDER_INACTIVE
@@ -87,7 +87,6 @@ private fun Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp)
-                .background(color = DDD_BLACK)
         ) {
             Spacer(Modifier.height(12.dp))
 
@@ -95,13 +94,13 @@ private fun Content(
                 text = stringResource(R.string.member_welcome),
                 color = DDD_WHITE,
                 fontWeight = FontWeight.W700,
-                fontSize = 24.sp
+                fontSize = 30.sp
             )
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
                     text = "(11th)",
                     color = DDD_BORDER_INACTIVE,
-                    fontSize = 24.sp,
+                    fontSize = 30.sp,
                     fontWeight = FontWeight.W700,
                     fontStyle = FontStyle.Italic
                 )
@@ -110,13 +109,13 @@ private fun Content(
                     text = stringResource(R.string.name, "김디디"),
                     color = DDD_WHITE,
                     fontWeight = FontWeight.W700,
-                    fontSize = 24.sp
+                    fontSize = 30.sp
                 )
             }
 
             Spacer(Modifier.height(40.dp))
 
-            DDDSituation(
+            DDDMemberSituation(
                 attendanceCount = 4,
                 tardyCount = 2,
                 absentCount = 9

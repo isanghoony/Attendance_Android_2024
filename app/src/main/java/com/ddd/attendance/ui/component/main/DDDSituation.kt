@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,7 +34,7 @@ import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_90
 import com.ddd.attendance.ui.theme.DDD_WHITE
 
 @Composable
-fun DDDSituation(
+fun DDDMemberSituation(
     modifier: Modifier = Modifier,
     radius: Dp = 20.dp,
     attendanceCount: Int,
@@ -47,7 +48,12 @@ fun DDDSituation(
             .padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 20.dp)
     ) {
         Column {
-            AttendanceStatusRow(modifier = Modifier)
+            AttendanceStatusRow(
+                modifier = Modifier,
+                text = stringResource(R.string.attendance_status),
+                textColor = DDD_BORDER_INACTIVE,
+                icon = painterResource(R.drawable.ic_arrow_gray)
+            )
 
             Spacer(Modifier.height(16.dp))
 
@@ -55,7 +61,7 @@ fun DDDSituation(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                DDDSituationItem(
+                DDDMemberSituationItem(
                     image = painterResource(R.drawable.ic_check),
                     count = attendanceCount,
                     label = stringResource(R.string.member_attendance),
@@ -64,7 +70,7 @@ fun DDDSituation(
 
                 Spacer(Modifier.weight(1f))
 
-                DDDSituationItem(
+                DDDMemberSituationItem(
                     image = painterResource(R.drawable.ic_tardy),
                     count = tardyCount,
                     label = stringResource(R.string.member_tardy),
@@ -73,7 +79,7 @@ fun DDDSituation(
 
                 Spacer(Modifier.weight(1f))
 
-                DDDSituationItem(
+                DDDMemberSituationItem(
                     image = painterResource(R.drawable.ic_absent),
                     count = absentCount,
                     label = stringResource(R.string.member_absent),
@@ -85,22 +91,72 @@ fun DDDSituation(
 }
 
 @Composable
-fun AttendanceStatusRow(
+fun DDDAdminSituation(
     modifier: Modifier = Modifier
+) {
+
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            DDDAdminSituationItem(
+                modifier = Modifier.weight(1f),
+                text = stringResource(R.string.attendance_status),
+                icon = painterResource(R.drawable.ic_attendance_stamp),
+            )
+
+            Spacer(Modifier.width(12.dp))
+
+            DDDAdminSituationItem(
+                modifier = Modifier.weight(1f),
+                text = stringResource(R.string.qr_code),
+                icon = painterResource(R.drawable.ic_attendance_stamp),
+            )
+        }
+
+        Spacer(Modifier.height(12.dp))
+
+        Box(
+            modifier = modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(DDD_NEUTRAL_GRAY_80),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 20.dp)
+            ) {
+                AttendanceStatusRow(
+                    text = stringResource(R.string.schedule),
+                    textColor = DDD_WHITE,
+                    icon = painterResource(R.drawable.ic_arrow_white)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun AttendanceStatusRow(
+    modifier: Modifier = Modifier,
+    text: String,
+    textColor: Color,
+    icon: Painter
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         DDDText(
-            text = stringResource(R.string.member_attendance_status),
-            color = DDD_BORDER_INACTIVE,
+            text = text,
+            color = textColor,
             fontWeight = FontWeight.W500,
             fontSize = 18.sp
         )
 
         Image(
-            painter = painterResource(R.drawable.ic_arrow),
+            painter = icon,
             contentDescription = "Arrow Icon",
             modifier = Modifier.size(24.dp)
         )
@@ -108,11 +164,11 @@ fun AttendanceStatusRow(
 }
 
 @Composable
-fun DDDSituationItem(
+fun DDDMemberSituationItem(
+    modifier: Modifier = Modifier,
     image: Painter,
     count: Int,
-    label: String,
-    modifier: Modifier = Modifier
+    label: String
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -154,28 +210,93 @@ fun DDDSituationItem(
     }
 }
 
-@Preview(name = "출석 현황 텍스트")
 @Composable
-private fun P1() {
-    AttendanceStatusRow()
+fun DDDAdminSituationItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    icon: Painter
+) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(DDD_NEUTRAL_GRAY_80),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(vertical = 16.dp, horizontal = 20.dp)
+        ) {
+            Row (modifier = Modifier,
+                verticalAlignment = Alignment.CenterVertically) {
+                DDDText(
+                    text = text,
+                    color = DDD_WHITE,
+                    fontWeight = FontWeight.W700,
+                    fontSize = 20.sp
+                )
+
+                Spacer(Modifier.width(12.dp))
+
+                Image(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(R.drawable.ic_arrow_white),
+                    contentDescription = "Arrow Icon"
+                )
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            Image(
+                modifier = Modifier.align(Alignment.End),
+                painter = icon,
+                contentDescription = "Arrow Icon",
+            )
+        }
+
+    }
 }
 
-@Preview(name = "출석 아이템")
+@Preview(name = "공통 카드 타이틀")
+@Composable
+private fun P1() {
+    AttendanceStatusRow(
+        text = stringResource(R.string.attendance_status),
+        textColor = DDD_BORDER_INACTIVE,
+        icon = painterResource(R.drawable.ic_arrow_gray)
+    )
+}
+
+@Preview(name = "멤버 아이템 카드")
 @Composable
 private fun P2() {
-    DDDSituationItem(
+    DDDMemberSituationItem(
         image = painterResource(R.drawable.ic_check),
         count = 3,
         label = "출석"
     )
 }
 
-@Preview(name = "현황")
+@Preview(name = "멤버 현황")
 @Composable
 private fun P3() {
-    DDDSituation(
+    DDDMemberSituation(
         attendanceCount = 2,
         tardyCount = 3,
         absentCount = 5
     )
+}
+
+@Preview(name = "운영진 아이템 카드")
+@Composable
+private fun P4() {
+    DDDAdminSituationItem(
+        text = stringResource(R.string.attendance_status),
+        icon = painterResource(R.drawable.ic_attendance_stamp)
+    )
+}
+
+@Preview(name = "운영진 현황")
+@Composable
+private fun P5() {
+    DDDAdminSituation()
 }
