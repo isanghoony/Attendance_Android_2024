@@ -27,7 +27,7 @@ fun MainScreen() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = MainScreenName.MAIN.name
+            startDestination = MainScreenName.MAIN_MEMBER.name
         ) {
             //회원
             composable(route = MainScreenName.MAIN_MEMBER.name) {

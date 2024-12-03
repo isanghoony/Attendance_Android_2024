@@ -15,6 +15,7 @@ okhttp3 = "5.0.0-alpha.14"
 googleHilt = "2.52"
 kotlinSerializationVersion = "1.7.1"
 hiltNavigationVersion = "1.2.0"
+camera2 = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +40,10 @@ retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofi
 okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerializationVersion" }
 converter-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit2" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camera2" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camera2" }
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camera2" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

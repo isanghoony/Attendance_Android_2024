@@ -87,31 +87,7 @@ private fun Content(
                 .fillMaxSize()
                 .padding(horizontal = 24.dp)
         ) {
-            Spacer(Modifier.height(20.dp))
 
-            DDDText(
-                text = stringResource(R.string.admin_welcome),
-                color = DDD_WHITE,
-                fontWeight = FontWeight.W700,
-                fontSize = 30.sp
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                DDDText(
-                    text = stringResource(R.string.name, "김디디"),
-                    color = DDD_WHITE,
-                    fontWeight = FontWeight.W700,
-                    fontSize = 30.sp
-                )
-
-                Spacer(Modifier.width(8.dp))
-
-                Image(
-                    painter = painterResource(R.drawable.ic_admin_chips),
-                    contentDescription = "admin icon"
-                )
-            }
-
-            Spacer(Modifier.height(24.dp))
         }
     }
 }

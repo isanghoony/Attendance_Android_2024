@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +63,6 @@ fun DDDMemberSituation(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 DDDMemberSituationItem(
-                    image = painterResource(R.drawable.ic_check),
                     count = attendanceCount,
                     label = stringResource(R.string.member_attendance),
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -71,7 +71,6 @@ fun DDDMemberSituation(
                 Spacer(Modifier.weight(1f))
 
                 DDDMemberSituationItem(
-                    image = painterResource(R.drawable.ic_tardy),
                     count = tardyCount,
                     label = stringResource(R.string.member_tardy),
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -80,7 +79,6 @@ fun DDDMemberSituation(
                 Spacer(Modifier.weight(1f))
 
                 DDDMemberSituationItem(
-                    image = painterResource(R.drawable.ic_absent),
                     count = absentCount,
                     label = stringResource(R.string.member_absent),
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -166,47 +164,26 @@ fun AttendanceStatusRow(
 @Composable
 fun DDDMemberSituationItem(
     modifier: Modifier = Modifier,
-    image: Painter,
     count: Int,
     label: String
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(
-            modifier = modifier
-                .size(68.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(DDD_NEUTRAL_GRAY_80),
-            contentAlignment = Alignment.Center
-        ) {
-            DDDText(
-                text = stringResource(R.string.member_times, count),
-                color = DDD_WHITE,
-                fontWeight = FontWeight.W700,
-                fontSize = 22.sp
-            )
-        }
+    Column(
+        modifier = modifier.width(68.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        DDDText(
+            text = "$count",
+            textStyle = MaterialTheme.typography.headlineSmall,
+            color = DDD_WHITE,
+            fontWeight = FontWeight.W700,
+        )
+        Spacer(modifier = Modifier.height(4.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Row(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = image,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            DDDText(
-                text = label,
-                color = DDD_BORDER_INACTIVE,
-                fontWeight = FontWeight.W500,
-                fontSize = 14.sp
-            )
-        }
+        DDDText(
+            text = label,
+            textStyle = MaterialTheme.typography.bodyMedium,
+            color = DDD_BORDER_INACTIVE,
+            fontWeight = FontWeight.W500,
+        )
     }
 }
 
@@ -270,7 +247,6 @@ private fun P1() {
 @Composable
 private fun P2() {
     DDDMemberSituationItem(
-        image = painterResource(R.drawable.ic_check),
         count = 3,
         label = "출석"
     )

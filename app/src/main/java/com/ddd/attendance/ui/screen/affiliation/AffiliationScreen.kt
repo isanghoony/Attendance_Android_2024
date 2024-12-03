@@ -1,5 +1,6 @@
 package com.ddd.attendance.ui.screen.affiliation
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ddd.attendance.ui.LoginProcessViewModel
+import com.ddd.attendance.ui.MainActivity
 import com.ddd.attendance.ui.component.DDDNextButton
 import com.ddd.attendance.ui.component.DDDProgressbar
 import com.ddd.attendance.ui.component.DDDSelector
@@ -43,6 +46,8 @@ fun AffiliationScreen(
     navController: NavController,
     viewModel: LoginProcessViewModel
 ) {
+    val context = LocalContext.current
+
     Content(
         onClickBackButton = {
             navController.popBackStack()
@@ -50,6 +55,8 @@ fun AffiliationScreen(
         onClickNext = {
             // 어디로 가야하는가~
             viewModel.onClickNextFromUserAffiliation()
+            //메인으로 일단 이동 ~
+            context.startActivity(Intent(context, MainActivity::class.java))
         }
     )
 }

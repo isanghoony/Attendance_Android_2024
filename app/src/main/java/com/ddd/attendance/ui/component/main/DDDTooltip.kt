@@ -29,12 +29,8 @@ fun DDDToolTip(
     text: String,
     cornerRadius: Dp = 12.dp,
     backgroundColor: Color = DDD_NEUTRAL_ORANGE_40,
-    onClick: () -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .clickable(onClick = onClick)
-    ) {
+    Column(modifier = modifier) {
         Card(
             shape = RoundedCornerShape(cornerRadius),
             elevation = cardElevation(0.dp),
@@ -69,5 +65,5 @@ fun DDDToolTip(
 private fun DDDToolTipPreview() {
     DDDToolTip(
         text = "Sample"
-    ) { }
+    )
 }
