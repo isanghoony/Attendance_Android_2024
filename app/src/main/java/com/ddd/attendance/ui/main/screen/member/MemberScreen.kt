@@ -1,5 +1,6 @@
 package com.ddd.attendance.ui.main.screen.member
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,8 +58,12 @@ fun MemberScreen(
 private fun Content(
     onPressMyPage:() -> Unit,
     onPressQrcode:() -> Unit,
-    onClickBackButton: () -> Unit,
+    onClickBackButton:() -> Unit,
 ) {
+    BackHandler {
+        onClickBackButton()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,61 +80,25 @@ private fun Content(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(horizontal = 24.dp)
         ) {
             item {
                 Spacer(Modifier.height(36.dp))
-
-                AttendanceStatusRow(
-                    onPressQrcode = onPressMyPage,
-                    onPressMyPage = onPressQrcode
-                )
-
-                Spacer(Modifier.height(20.dp))
-
-                DDDText(
-                    text = stringResource(R.string.member_attendance_status, "김디디"),
-                    color = DDD_TEXT_PRIMARY,
-                    textStyle = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(Modifier.height(16.dp))
-
-                DDDText(
-                    text = stringResource(R.string.member_activity_period, "2025.03.12 ~ 2025.08.12"),
-                    color = DDD_NEUTRAL_GRAY_50,
-                    textStyle = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Normal
-                )
-
-                Spacer(Modifier.height(8.dp))
-
-                DDDMemberSituation(
-                    attendanceCount = 2,
-                    tardyCount = 3,
-                    absentCount = 5
-                )
-
-                Spacer(Modifier.height(56.dp))
-
-                DDDText(
-                    text = stringResource(R.string.member_th_schedule, "12"),
-                    color = DDD_TEXT_PRIMARY,
-                    textStyle = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium
-                )
-
-                Spacer(Modifier.height(16.dp))
+                HeaderSection(onPressMyPage, onPressQrcode)
             }
+
+            item {
+                Spacer(Modifier.height(20.dp))
+                BodySection()
+            }
+
             items(schedules) { item ->
                 ScheduleItem(
+                    modifier = Modifier.padding(horizontal = 24.dp),
                     month = item.month,
                     day = item.day,
                     title = item.title,
                     content = item.content
                 )
-
                 Spacer(Modifier.height(12.dp))
             }
         }
@@ -137,9 +106,67 @@ private fun Content(
 }
 
 @Composable
-private fun ScheduleItem(month: String, day: String, title: String, content: String) {
+private fun HeaderSection(
+    onPressMyPage:() -> Unit,
+    onPressQrcode:() -> Unit
+) {
+    AttendanceStatusRow(
+        modifier = Modifier.padding(start = 16.dp, end = 24.dp),
+        onPressQrcode = onPressMyPage,
+        onPressMyPage = onPressQrcode
+    )
+}
+
+@Composable
+private fun BodySection() {
+    Column(
+        modifier = Modifier.padding(horizontal = 24.dp)
+    ) {
+        DDDText(
+            text = stringResource(R.string.member_attendance_status, "김디디"),
+            color = DDD_TEXT_PRIMARY,
+            textStyle = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        DDDText(
+            text = stringResource(R.string.member_activity_period, "2025.03.12 ~ 2025.08.12"),
+            color = DDD_NEUTRAL_GRAY_50,
+            textStyle = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Normal
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        DDDMemberSituation(
+            attendanceCount = 2,
+            tardyCount = 3,
+            absentCount = 5
+        )
+
+        Spacer(Modifier.height(56.dp))
+
+        DDDText(
+            text = stringResource(R.string.member_th_schedule, "12"),
+            color = DDD_TEXT_PRIMARY,
+            textStyle = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Medium
+        )
+
+        Spacer(Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun ScheduleItem(modifier: Modifier = Modifier
+                         ,month: String,
+                         day: String,
+                         title: String,
+                         content: String) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(DDD_GRAY_F5)

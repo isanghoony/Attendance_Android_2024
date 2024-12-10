@@ -85,11 +85,12 @@ fun DDDMemberSituation(
 
 @Composable
 fun AttendanceStatusRow(
+    modifier: Modifier = Modifier,
     onPressQrcode:() -> Unit,
     onPressMyPage:() -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(52.dp)
             .background(DDD_WHITE),
@@ -103,20 +104,18 @@ fun AttendanceStatusRow(
         Spacer(modifier = Modifier.weight(1F))
 
         Image(
-            modifier = Modifier.noRippleClickable(onClick = onPressMyPage),
-            painter = painterResource(R.drawable.ic_36_my_info),
+            modifier = Modifier.noRippleClickable(onClick = onPressQrcode),
+            painter = painterResource(R.drawable.ic_36_qr_code),
             contentDescription = "Arrow Icon"
         )
 
         Spacer(modifier = Modifier.width(12.dp))
 
         Image(
-            modifier = Modifier.noRippleClickable(onClick = onPressQrcode),
-            painter = painterResource(R.drawable.ic_36_qr_code),
+            modifier = Modifier.noRippleClickable(onClick = onPressMyPage),
+            painter = painterResource(R.drawable.ic_36_my_info),
             contentDescription = "Arrow Icon"
         )
-
-        Spacer(modifier = Modifier.width(24.dp))
     }
 }
 
@@ -134,7 +133,7 @@ fun DDDMemberSituationItem(
             text = "$count",
             color = textColor,
             textStyle = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.W700,
+            fontWeight = FontWeight.Bold,
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -143,7 +142,7 @@ fun DDDMemberSituationItem(
             text = label,
             textStyle = MaterialTheme.typography.bodyMedium,
             color = DDD_TEXT_SECONDARY,
-            fontWeight = FontWeight.W500,
+            fontWeight = FontWeight.Medium,
         )
     }
 }
@@ -169,7 +168,7 @@ fun DDDAdminSituationItem(
                 DDDText(
                     text = text,
                     color = DDD_WHITE,
-                    fontWeight = FontWeight.W700,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
 

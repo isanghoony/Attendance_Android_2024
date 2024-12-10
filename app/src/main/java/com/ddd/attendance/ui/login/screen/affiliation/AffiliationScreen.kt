@@ -1,5 +1,6 @@
 package com.ddd.attendance.ui.login.screen.affiliation
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -43,15 +44,16 @@ fun AffiliationScreen(
     navController: NavController,
     viewModel: LoginProcessViewModel
 ) {
-    val context = LocalContext.current
+    val context = LocalContext.current as? Activity
     Content(
         onClickBackButton = {
             navController.popBackStack()
         },
         onClickNext = {
             // 어디로 가야하는가~
-            context.startActivity(Intent(context, MainActivity::class.java))
             viewModel.onClickNextFromUserAffiliation()
+            context?.startActivity(Intent(context, MainActivity::class.java))
+            context?.finish()
         }
     )
 }
