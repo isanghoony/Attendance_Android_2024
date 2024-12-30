@@ -19,9 +19,7 @@ fun MainScreen() {
     val viewModel: MainViewModel = hiltViewModel()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DDD_WHITE)
+        modifier = Modifier.fillMaxSize()
     ) {
         NavHost(
             navController = navController,
