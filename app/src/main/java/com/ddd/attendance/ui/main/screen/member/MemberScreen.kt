@@ -217,8 +217,8 @@ private fun ScheduleDetails(schedule: Schedule) {
 }
 
 @Composable
-@Preview(name = "member")
-private fun Preview() {
+@Preview(name = "멤버")
+private fun P1() {
     Content(
         onPressMyPage = {},
         onPressQrcode = {},
