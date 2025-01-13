@@ -33,9 +33,12 @@ import com.ddd.attendance.ui.component.AttendanceStatusRow
 import com.ddd.attendance.ui.component.DDDMemberSituation
 import com.ddd.attendance.ui.component.DDDText
 import com.ddd.attendance.ui.main.MainViewModel
+import com.ddd.attendance.ui.theme.DDD_BLACK
 import com.ddd.attendance.ui.theme.DDD_GRAY_F5
 import com.ddd.attendance.ui.theme.DDD_NEUTRAL_BLUE_20
+import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_20
 import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_50
+import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_90
 import com.ddd.attendance.ui.theme.DDD_TEXT_PRIMARY
 import com.ddd.attendance.ui.theme.DDD_TEXT_SECONDARY
 import com.ddd.attendance.ui.theme.DDD_WHITE
@@ -56,30 +59,21 @@ fun MemberScreen(
 
 @Composable
 private fun Content(
-    onPressMyPage:() -> Unit,
-    onPressQrcode:() -> Unit,
-    onClickBackButton:() -> Unit,
+    onPressMyPage: () -> Unit,
+    onPressQrcode: () -> Unit,
+    onClickBackButton: () -> Unit,
 ) {
-    BackHandler {
-        onClickBackButton()
-    }
+    val schedules = getSchedules()
+
+    BackHandler { onClickBackButton() }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DDD_WHITE)
+            .background(DDD_BLACK)
     ) {
-        val schedules = listOf(
-            Schedule(month = "6월", day = "11", title = "오리엔테이션", content = "커리큘럼에 대한 설명 문구 작성"),
-            Schedule(month = "6월", day = "22", title = "부스팅 데이 1", content = "커리큘럼에 대한 설명 문구 작성"),
-            Schedule(month = "7월", day = "06", title = "St. Patrick's Day", content = "Irish cultural celebration"),
-            Schedule(month = "6월", day = "25", title = "April Fools' Day", content = "Day for jokes and pranks")
-        )
-
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
+            modifier = Modifier.fillMaxWidth()
         ) {
             item {
                 Spacer(Modifier.height(36.dp))
@@ -91,13 +85,10 @@ private fun Content(
                 BodySection()
             }
 
-            items(schedules) { item ->
+            items(schedules) { schedule ->
                 ScheduleItem(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    month = item.month,
-                    day = item.day,
-                    title = item.title,
-                    content = item.content
+                    schedule = schedule
                 )
                 Spacer(Modifier.height(12.dp))
             }
@@ -107,13 +98,13 @@ private fun Content(
 
 @Composable
 private fun HeaderSection(
-    onPressMyPage:() -> Unit,
-    onPressQrcode:() -> Unit
+    onPressMyPage: () -> Unit,
+    onPressQrcode: () -> Unit
 ) {
     AttendanceStatusRow(
         modifier = Modifier.padding(start = 16.dp, end = 24.dp),
-        onPressQrcode = onPressMyPage,
-        onPressMyPage = onPressQrcode
+        onPressQrcode = onPressQrcode,
+        onPressMyPage = onPressMyPage
     )
 }
 
@@ -124,7 +115,7 @@ private fun BodySection() {
     ) {
         DDDText(
             text = stringResource(R.string.member_attendance_status, "김디디"),
-            color = DDD_TEXT_PRIMARY,
+            color = DDD_WHITE,
             textStyle = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
@@ -133,7 +124,7 @@ private fun BodySection() {
 
         DDDText(
             text = stringResource(R.string.member_activity_period, "2025.03.12 ~ 2025.08.12"),
-            color = DDD_NEUTRAL_GRAY_50,
+            color = DDD_NEUTRAL_GRAY_20,
             textStyle = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Normal
         )
@@ -141,16 +132,16 @@ private fun BodySection() {
         Spacer(Modifier.height(8.dp))
 
         DDDMemberSituation(
-            attendanceCount = 2,
-            tardyCount = 3,
-            absentCount = 5
+            attendanceCount = 8,
+            tardyCount = 2,
+            absentCount = 1
         )
 
         Spacer(Modifier.height(56.dp))
 
         DDDText(
             text = stringResource(R.string.member_th_schedule, "12"),
-            color = DDD_TEXT_PRIMARY,
+            color = DDD_WHITE,
             textStyle = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Medium
         )
@@ -160,80 +151,86 @@ private fun BodySection() {
 }
 
 @Composable
-private fun ScheduleItem(modifier: Modifier = Modifier
-                         ,month: String,
-                         day: String,
-                         title: String,
-                         content: String) {
+private fun ScheduleItem(
+    modifier: Modifier = Modifier,
+    schedule: Schedule
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(DDD_GRAY_F5)
+            .background(DDD_NEUTRAL_GRAY_90)
             .padding(16.dp)
     ) {
-        Row (
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(54.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(DDD_NEUTRAL_BLUE_20),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    DDDText(
-                        text = month,
-                        color = DDD_TEXT_PRIMARY,
-                        textStyle = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Medium
-                    )
-
-                    Spacer(Modifier.height(4.dp))
-
-                    DDDText(
-                        text = day,
-                        color = DDD_TEXT_PRIMARY,
-                        textStyle = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
-
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            ScheduleDateBox(schedule)
             Spacer(Modifier.width(12.dp))
-
-            Column(
-                verticalArrangement = Arrangement.Center
-            ) {
-                DDDText(
-                    text = title,
-                    color = DDD_TEXT_PRIMARY,
-                    textStyle = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(Modifier.height(8.dp))
-
-                DDDText(
-                    text = content,
-                    color = DDD_TEXT_SECONDARY,
-                    textStyle = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Normal
-                )
-            }
+            ScheduleDetails(schedule)
         }
     }
 }
 
-@Preview(name = "Content")
 @Composable
-private fun P1() {
-   Content(
-       onPressMyPage = {},
-       onPressQrcode = {},
-       onClickBackButton = {}
-   )
+private fun ScheduleDateBox(schedule: Schedule) {
+    Box(
+        modifier = Modifier
+            .size(54.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(DDD_NEUTRAL_BLUE_20),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            DDDText(
+                text = schedule.month,
+                color = DDD_BLACK,
+                textStyle = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Medium
+            )
+            Spacer(Modifier.height(4.dp))
+            DDDText(
+                text = schedule.day,
+                color = DDD_BLACK,
+                textStyle = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
 }
+
+@Composable
+private fun ScheduleDetails(schedule: Schedule) {
+    Column(verticalArrangement = Arrangement.Center) {
+        DDDText(
+            text = schedule.title,
+            color = DDD_WHITE,
+            textStyle = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(Modifier.height(8.dp))
+        DDDText(
+            text = schedule.content,
+            color = DDD_NEUTRAL_GRAY_20,
+            textStyle = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+@Preview(name = "멤버")
+private fun P1() {
+    Content(
+        onPressMyPage = {},
+        onPressQrcode = {},
+        onClickBackButton = {}
+    )
+}
+
+private fun getSchedules(): List<Schedule> = listOf(
+    Schedule(month = "6월", day = "11", title = "오리엔테이션", content = "커리큘럼에 대한 설명 문구 작성"),
+    Schedule(month = "6월", day = "22", title = "부스팅 데이 1", content = "커리큘럼에 대한 설명 문구 작성"),
+    Schedule(month = "7월", day = "06", title = "St. Patrick's Day", content = "Irish cultural celebration"),
+    Schedule(month = "6월", day = "25", title = "April Fools' Day", content = "Day for jokes and pranks"),
+    Schedule(month = "9월", day = "21", title = "부스팅 데이 2", content = "설명 문구 작성"),
+    Schedule(month = "10월", day = "11", title = "직군 세션", content = "놀자 놀자")
+)

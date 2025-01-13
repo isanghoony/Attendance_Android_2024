@@ -27,9 +27,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddd.attendance.R
+import com.ddd.attendance.ui.theme.DDD_BLACK
+import com.ddd.attendance.ui.theme.DDD_ERROR
 import com.ddd.attendance.ui.theme.DDD_GRAY_F5
 import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_20
 import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_80
+import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_90
+import com.ddd.attendance.ui.theme.DDD_NEUTRAL_ORANGE_40
 import com.ddd.attendance.ui.theme.DDD_TEXT_SECONDARY
 import com.ddd.attendance.ui.theme.DDD_WHITE
 import com.ddd.attendance.utils.noRippleClickable
@@ -45,7 +49,7 @@ fun DDDMemberSituation(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(radius))
-            .background(DDD_GRAY_F5)
+            .background(DDD_NEUTRAL_GRAY_90)
             .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 24.dp)
     ) {
         Column {
@@ -60,22 +64,24 @@ fun DDDMemberSituation(
                 )
 
                 Spacer(Modifier.weight(1f))
-                Spacer(Modifier.height(48.dp).width(1.dp).background(DDD_NEUTRAL_GRAY_20))
+                Spacer(Modifier.height(48.dp).width(1.dp).background(DDD_NEUTRAL_GRAY_80))
                 Spacer(Modifier.weight(1f))
 
                 DDDMemberSituationItem(
                     count = tardyCount,
                     label = stringResource(R.string.member_tardy),
+                    textColor = DDD_NEUTRAL_ORANGE_40,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
 
                 Spacer(Modifier.weight(1f))
-                Spacer(Modifier.height(48.dp).width(1.dp).background(DDD_NEUTRAL_GRAY_20))
+                Spacer(Modifier.height(48.dp).width(1.dp).background(DDD_NEUTRAL_GRAY_80))
                 Spacer(Modifier.weight(1f))
 
                 DDDMemberSituationItem(
                     count = absentCount,
                     label = stringResource(R.string.member_absent),
+                    textColor = DDD_ERROR,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
@@ -92,8 +98,7 @@ fun AttendanceStatusRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(52.dp)
-            .background(DDD_WHITE),
+            .height(52.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -123,11 +128,11 @@ fun AttendanceStatusRow(
 fun DDDMemberSituationItem(
     modifier: Modifier = Modifier,
     count: Int,
-    textColor: Color = DDD_TEXT_SECONDARY,
+    textColor: Color = DDD_WHITE,
     label: String
 ) {
     Column(
-        modifier = modifier.width(68.dp).background(DDD_GRAY_F5),
+        modifier = modifier.width(68.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         DDDText(
             text = "$count",
@@ -141,7 +146,7 @@ fun DDDMemberSituationItem(
         DDDText(
             text = label,
             textStyle = MaterialTheme.typography.bodyMedium,
-            color = DDD_TEXT_SECONDARY,
+            color = DDD_NEUTRAL_GRAY_20,
             fontWeight = FontWeight.Medium,
         )
     }

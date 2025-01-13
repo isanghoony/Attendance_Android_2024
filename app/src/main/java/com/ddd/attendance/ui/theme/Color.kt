@@ -10,7 +10,7 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val DDD_BLACK = Color(color = 0xFF1A1A1A)
+val DDD_BLACK = Color(color = 0xFF0C0E0F)
 val DDD_800 = Color(color = 0xFF4D4D4D)
 val DDD_600 = Color(color = 0xFF808080)
 val DDD_400 = Color(color = 0xFFB3B3B3)
