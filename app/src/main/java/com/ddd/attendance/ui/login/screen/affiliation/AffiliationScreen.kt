@@ -128,6 +128,12 @@ private fun Content(
                     selected = selectedIndex == index,
                     onClick = { selectedIndex = index}
                 )
+
+                Spacer(
+                    modifier = Modifier.height(
+                        if (index != list.lastIndex) 8.dp else 0.dp
+                    )
+                )
             }
         }
     }

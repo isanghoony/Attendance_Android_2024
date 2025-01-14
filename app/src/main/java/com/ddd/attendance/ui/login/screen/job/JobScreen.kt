@@ -101,7 +101,7 @@ private fun Content(
         ) {
             item {
                 DDDText(
-                    text = "직무을 선택해주세요",
+                    text = "직무를 선택해주세요",
                     color = DDD_WHITE,
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp
