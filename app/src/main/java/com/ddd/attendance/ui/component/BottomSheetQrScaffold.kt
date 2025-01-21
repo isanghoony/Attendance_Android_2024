@@ -1,7 +1,5 @@
 package com.ddd.attendance.ui.component
 
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -19,6 +17,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,21 +27,35 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.BlurEffect
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ddd.attendance.R
+import com.google.common.util.concurrent.ListenableFuture
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
@@ -51,7 +64,6 @@ import com.google.zxing.NotFoundException
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.common.HybridBinarizer
 
-@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetQrScaffold(
@@ -70,6 +82,7 @@ fun BottomSheetQrScaffold(
             BottomSheetContent(
                 onCloseImageClicked = onCloseImageClicked,
                 onQrCodeScanned = onQrCodeScanned,
+                stopState = if (scaffoldState.bottomSheetState.isVisible) false else true,
             )
         },
     ) {
@@ -82,6 +95,7 @@ fun BottomSheetQrScaffold(
 fun BottomSheetContent(
     onCloseImageClicked: () -> Unit,
     onQrCodeScanned: (String) -> Unit,
+    stopState: Boolean,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 ) {
     val context = LocalContext.current
@@ -98,74 +112,111 @@ fun BottomSheetContent(
             .fillMaxWidth()
             .fillMaxHeight(0.95f)
     ) {
-        LaunchedEffect(cameraProviderFuture) {
-            cameraProviderFuture.addListener({
-                try {
-                    val cameraProvider = cameraProviderFuture.get()
-                    cameraProvider.unbindAll()
+        DisposableEffect(lifecycleOwner.lifecycle, stopState) {
+            if (!stopState) {
+                val observer = LifecycleEventObserver { _, event ->
+                    when (event) {
+                        Lifecycle.Event.ON_RESUME -> {
+                            cameraProviderFuture.addListener({
+                                val cameraProvider = cameraProviderFuture.get()
+                                cameraProvider.unbindAll()
 
-                    val qrCodeReader = MultiFormatReader().apply {
-                        setHints(
-                            mapOf(
-                                DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
-                            )
-                        )
+                                val qrCodeReader = MultiFormatReader().apply {
+                                    setHints(
+                                        mapOf(
+                                            DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
+                                        )
+                                    )
+                                }
+
+                                imageAnalyzer.setAnalyzer(
+                                    ContextCompat.getMainExecutor(context)
+                                ) { imageProxy ->
+                                    processImageProxy(imageProxy, qrCodeReader, onQrCodeScanned, stopState)
+                                }
+
+                                cameraProvider.bindToLifecycle(
+                                    lifecycleOwner,
+                                    CameraSelector.DEFAULT_BACK_CAMERA,
+                                    preview,
+                                    imageAnalyzer
+                                )
+                            }, ContextCompat.getMainExecutor(context))
+                        }
+
+                        Lifecycle.Event.ON_PAUSE -> {
+                            // Pause analysis
+                            cameraProviderFuture.get().unbindAll()
+                        }
+
+                        else -> {}
                     }
-
-                    imageAnalyzer.setAnalyzer(
-                        ContextCompat.getMainExecutor(context)
-                    ) { imageProxy ->
-                        processImageProxy(imageProxy, qrCodeReader, onQrCodeScanned)
-                    }
-
-                    cameraProvider.bindToLifecycle(
-                        lifecycleOwner = lifecycleOwner,
-                        cameraSelector = cameraSelector,
-                        preview,
-                        imageAnalyzer
-                    )
-                } catch (exc: Exception) {
-                    Log.e("cameraFail", exc.toString())
                 }
-            }, ContextCompat.getMainExecutor(context))
-        }
 
-        AndroidView(
-            modifier = Modifier
-                .clipToBounds()
-                .graphicsLayer {
-                    // 블러 효과
-                    renderEffect = BlurEffect(radiusX = 25f, radiusY = 25f)
-                },
-            factory = { ctx ->
-                PreviewView(ctx).apply {
-                    implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                lifecycleOwner.lifecycle.addObserver(observer)
 
-                    // Android RenderEffect로 블러 효과 적용
-                    setRenderEffect(
-                        RenderEffect.createBlurEffect(
-                            25f, 25f, Shader.TileMode.CLAMP // 블러 반경 및 처리 방식 설정
-                        )
-                    )
+                onDispose {
+                    lifecycleOwner.lifecycle.removeObserver(observer)
+                    cameraProviderFuture.get().unbindAll()
                 }
-            },
-            update = { previewView ->
-                if (previewView.surfaceProvider != preview.surfaceProvider) {
-                    preview.surfaceProvider = previewView.surfaceProvider
+            } else {
+                onDispose {
+                    cameraProviderFuture.get().unbindAll()
                 }
             }
-        )
+        }
 
-        Box(
-            modifier = Modifier
-                .size(240.dp)
-                .align(Alignment.Center)
-                .border(
-                    width = 2.dp,
-                    color = Color.Blue,
-                    shape = RoundedCornerShape(size = 40.dp)
-                )
-        )
+        LaunchedEffect(cameraProviderFuture, stopState) {
+            if (!stopState) {
+                cameraProviderFuture.addListener({
+                    try {
+                        val cameraProvider = cameraProviderFuture.get()
+                        cameraProvider.unbindAll()
+
+                        val qrCodeReader = MultiFormatReader().apply {
+                            setHints(
+                                mapOf(
+                                    DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
+                                )
+                            )
+                        }
+
+                        imageAnalyzer.setAnalyzer(
+                            ContextCompat.getMainExecutor(context)
+                        ) { imageProxy ->
+                            processImageProxy(imageProxy, qrCodeReader, onQrCodeScanned, stopState)
+                        }
+
+                        cameraProvider.bindToLifecycle(
+                            lifecycleOwner = lifecycleOwner,
+                            cameraSelector = cameraSelector,
+                            preview,
+                            imageAnalyzer
+                        )
+                    } catch (exc: Exception) {
+                        Log.e("cameraFail", exc.toString())
+                    }
+                }, ContextCompat.getMainExecutor(context))
+            } else {
+                cameraProviderFuture.get().unbindAll()
+            }
+        }
+
+        if (!stopState) {
+            AndroidView(
+                modifier = Modifier.clipToBounds(),
+                factory = { ctx ->
+                    PreviewView(ctx).apply {
+                        implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                    }
+                },
+                update = { previewView ->
+                    if (previewView.surfaceProvider != preview.surfaceProvider) {
+                        preview.surfaceProvider = previewView.surfaceProvider
+                    }
+                }
+            )
+        }
 
         Image(
             modifier = Modifier
@@ -173,7 +224,9 @@ fun BottomSheetContent(
                 .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
-                    onClick = onCloseImageClicked
+                    onClick = {
+                        onCloseImageClicked()
+                    }
                 ),
             painter = painterResource(R.drawable.ic_36_qr_clear),
             contentDescription = "QR Finish"
@@ -185,8 +238,14 @@ fun BottomSheetContent(
 private fun processImageProxy(
     imageProxy: ImageProxy,
     qrCodeReader: MultiFormatReader,
-    onQrCodeScanned: (String) -> Unit
+    onQrCodeScanned: (String) -> Unit,
+    stopState: Boolean
 ) {
+    if (stopState) {
+        imageProxy.close()
+        return
+    }
+
     val image = imageProxy.image
     if (image != null) {
         val buffer = image.planes[0].buffer
