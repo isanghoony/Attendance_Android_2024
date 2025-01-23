@@ -76,7 +76,6 @@ fun BottomSheetQrScaffold(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun BottomSheetContent(
     onCloseImageClicked: () -> Unit,
