@@ -11,13 +11,11 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,35 +25,23 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ddd.attendance.R
-import com.google.common.util.concurrent.ListenableFuture
+import com.ddd.attendance.ui.theme.DDD_NEUTRAL_BLUE_40
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
@@ -101,110 +87,75 @@ fun BottomSheetContent(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
-    val preview: Preview = Preview.Builder().build()
-    val imageAnalyzer = ImageAnalysis.Builder()
-        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-        .build()
+    val preview = remember { Preview.Builder().build() }
+    val imageAnalyzer = remember {
+        ImageAnalysis.Builder()
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+    }
+
+    var borderColor by remember { mutableStateOf(Color.Transparent) }
+    var borderWidth by remember { mutableStateOf(0.dp) }
 
     Box(
         modifier = Modifier
-            .background(Color.Transparent)
             .fillMaxWidth()
             .fillMaxHeight(0.95f)
     ) {
-        DisposableEffect(lifecycleOwner.lifecycle, stopState) {
+        LaunchedEffect(stopState) {
+            val cameraProvider = cameraProviderFuture.get()
+
             if (!stopState) {
-                val observer = LifecycleEventObserver { _, event ->
-                    when (event) {
-                        Lifecycle.Event.ON_RESUME -> {
-                            cameraProviderFuture.addListener({
-                                val cameraProvider = cameraProviderFuture.get()
-                                cameraProvider.unbindAll()
+                try {
+                    cameraProvider.unbindAll()
 
-                                val qrCodeReader = MultiFormatReader().apply {
-                                    setHints(
-                                        mapOf(
-                                            DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
-                                        )
-                                    )
-                                }
-
-                                imageAnalyzer.setAnalyzer(
-                                    ContextCompat.getMainExecutor(context)
-                                ) { imageProxy ->
-                                    processImageProxy(imageProxy, qrCodeReader, onQrCodeScanned, stopState)
-                                }
-
-                                cameraProvider.bindToLifecycle(
-                                    lifecycleOwner,
-                                    CameraSelector.DEFAULT_BACK_CAMERA,
-                                    preview,
-                                    imageAnalyzer
-                                )
-                            }, ContextCompat.getMainExecutor(context))
-                        }
-
-                        Lifecycle.Event.ON_PAUSE -> {
-                            // Pause analysis
-                            cameraProviderFuture.get().unbindAll()
-                        }
-
-                        else -> {}
-                    }
-                }
-
-                lifecycleOwner.lifecycle.addObserver(observer)
-
-                onDispose {
-                    lifecycleOwner.lifecycle.removeObserver(observer)
-                    cameraProviderFuture.get().unbindAll()
-                }
-            } else {
-                onDispose {
-                    cameraProviderFuture.get().unbindAll()
-                }
-            }
-        }
-
-        LaunchedEffect(cameraProviderFuture, stopState) {
-            if (!stopState) {
-                cameraProviderFuture.addListener({
-                    try {
-                        val cameraProvider = cameraProviderFuture.get()
-                        cameraProvider.unbindAll()
-
-                        val qrCodeReader = MultiFormatReader().apply {
-                            setHints(
-                                mapOf(
-                                    DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
-                                )
+                    val qrCodeReader = MultiFormatReader().apply {
+                        setHints(
+                            mapOf(
+                                DecodeHintType.POSSIBLE_FORMATS to listOf(BarcodeFormat.QR_CODE)
                             )
-                        }
-
-                        imageAnalyzer.setAnalyzer(
-                            ContextCompat.getMainExecutor(context)
-                        ) { imageProxy ->
-                            processImageProxy(imageProxy, qrCodeReader, onQrCodeScanned, stopState)
-                        }
-
-                        cameraProvider.bindToLifecycle(
-                            lifecycleOwner = lifecycleOwner,
-                            cameraSelector = cameraSelector,
-                            preview,
-                            imageAnalyzer
                         )
-                    } catch (exc: Exception) {
-                        Log.e("cameraFail", exc.toString())
                     }
-                }, ContextCompat.getMainExecutor(context))
+
+                    imageAnalyzer.setAnalyzer(
+                        ContextCompat.getMainExecutor(context)
+                    ) { imageProxy ->
+                        processImageProxy(
+                            imageProxy = imageProxy,
+                            qrCodeReader = qrCodeReader,
+                            stopState = stopState,
+                            onQrCodeScanned = { data ->
+                                //data.contains("Hello world!") 재현용 qr code 값 Hello world!
+                                if (data.isNotBlank()) {
+                                    borderWidth = 4.dp
+                                    borderColor = DDD_NEUTRAL_BLUE_40
+                                    onQrCodeScanned(data)
+                                } else {
+                                    borderWidth = 0.dp
+                                    borderColor = Color.Transparent
+                                }
+                            }
+                        )
+                    }
+
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        preview,
+                        imageAnalyzer
+                    )
+                } catch (e: Exception) {
+                    Log.e("CameraSetup", "Failed to set up camera: $e")
+                }
             } else {
-                cameraProviderFuture.get().unbindAll()
+                cameraProvider.unbindAll()
             }
         }
 
         if (!stopState) {
             AndroidView(
-                modifier = Modifier.clipToBounds(),
+                modifier = Modifier
+                    .clipToBounds(),
                 factory = { ctx ->
                     PreviewView(ctx).apply {
                         implementationMode = PreviewView.ImplementationMode.COMPATIBLE
@@ -231,6 +182,20 @@ fun BottomSheetContent(
             painter = painterResource(R.drawable.ic_36_qr_clear),
             contentDescription = "QR Finish"
         )
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(
+                    width = 240.dp,
+                    height = 240.dp
+                )
+                .border(
+                    width = borderWidth,
+                    color = borderColor,
+                    shape = RoundedCornerShape(20.dp)
+                )
+        )
     }
 }
 
@@ -254,16 +219,13 @@ private fun processImageProxy(
 
         val width = image.width
         val height = image.height
-        val rotationDegrees = imageProxy.imageInfo.rotationDegrees
 
-        // 중앙 네모 영역 계산 (네모 크기: 200x200)
         val centerX = width / 2
         val centerY = height / 2
         val boxSize = 240 // 네모 크기
         val left = maxOf(0, centerX - boxSize / 2)
         val top = maxOf(0, centerY - boxSize / 2)
 
-        // 중앙 네모 영역에 맞는 Source 생성
         val source = PlanarYUVLuminanceSource(
             data,
             width,
@@ -279,12 +241,12 @@ private fun processImageProxy(
 
         try {
             val result = qrCodeReader.decode(binaryBitmap)
-            Log.d("QRCodeScanner", "QR 코드 스캔 성공: ${result.text}")
+            Log.d("QRCodeScanner", result.text)
             onQrCodeScanned(result.text)
         } catch (e: NotFoundException) {
-            Log.d("QRCodeScanner", "QR 코드가 중앙 영역에 없음")
+            onQrCodeScanned("")
         } catch (e: Exception) {
-            Log.e("QRCodeScanner", "QR 코드 처리 중 오류: ${e.message}")
+            onQrCodeScanned("")
         } finally {
             imageProxy.close()
         }
