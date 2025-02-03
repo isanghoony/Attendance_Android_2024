@@ -14,7 +14,7 @@ import com.ddd.attendance.feature.login.screen.invitationcode.InvitationCodeScre
 import com.ddd.attendance.feature.login.screen.job.JobScreen
 import com.ddd.attendance.feature.login.screen.login.LoginScreen
 import com.ddd.attendance.feature.login.screen.name.NameScreen
-import com.ddd.attendance.ui.theme.DDD_BLACK
+import com.ddd.attendance.core.ui.theme.DDD_BLACK
 
 @Composable
 fun LoginProcessScreen() {

@@ -18,9 +18,9 @@ import androidx.navigation.NavController
 import com.ddd.attendance.R
 import com.ddd.attendance.feature.login.LoginProcessViewModel
 import com.ddd.attendance.feature.login.ScreenName
-import com.ddd.attendance.designsystem.DDDText
-import com.ddd.attendance.ui.theme.DDD_300
-import com.ddd.attendance.ui.theme.DDD_BLACK
+import com.ddd.attendance.core.designsystem.DDDText
+import com.ddd.attendance.core.ui.theme.DDD_300
+import com.ddd.attendance.core.ui.theme.DDD_BLACK
 
 @Composable
 fun LoginScreen(

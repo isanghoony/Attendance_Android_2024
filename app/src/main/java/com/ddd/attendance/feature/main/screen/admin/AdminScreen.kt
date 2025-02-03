@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.ddd.attendance.feature.main.MainViewModel
-import com.ddd.attendance.ui.theme.DDD_BLACK
+import com.ddd.attendance.core.ui.theme.DDD_BLACK
 
 @Composable
 fun AdminScreen(

@@ -43,17 +43,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.ddd.attendance.R
-import com.ddd.attendance.model.Schedule
-import com.ddd.attendance.designsystem.AttendanceStatusRow
-import com.ddd.attendance.designsystem.DDDMemberSituation
-import com.ddd.attendance.designsystem.DDDText
+import com.ddd.attendance.core.model.Schedule
+import com.ddd.attendance.core.designsystem.AttendanceStatusRow
+import com.ddd.attendance.core.designsystem.DDDMemberSituation
+import com.ddd.attendance.core.designsystem.DDDText
 import com.ddd.attendance.feature.main.MainViewModel
-import com.ddd.attendance.ui.component.BottomSheetQrScaffold
-import com.ddd.attendance.ui.theme.DDD_BLACK
-import com.ddd.attendance.ui.theme.DDD_NEUTRAL_BLUE_20
-import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_20
-import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_90
-import com.ddd.attendance.ui.theme.DDD_WHITE
+import com.ddd.attendance.core.ui.component.BottomSheetQrScaffold
+import com.ddd.attendance.core.ui.theme.DDD_BLACK
+import com.ddd.attendance.core.ui.theme.DDD_NEUTRAL_BLUE_20
+import com.ddd.attendance.core.ui.theme.DDD_NEUTRAL_GRAY_20
+import com.ddd.attendance.core.ui.theme.DDD_NEUTRAL_GRAY_90
+import com.ddd.attendance.core.ui.theme.DDD_WHITE
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

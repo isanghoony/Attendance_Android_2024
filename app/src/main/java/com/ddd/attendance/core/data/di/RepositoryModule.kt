@@ -1,0 +1,18 @@
+package com.ddd.attendance.core.data.di
+
+import com.ddd.attendance.core.data.repository.DefaultQrRepository
+import com.ddd.attendance.core.domain.repository.QrRepository
+import com.ddd.attendance.core.network.service.QrApiService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object RepositoryModule {
+    @Provides
+    @Singleton
+    fun provideQrRepository(api: QrApiService): QrRepository = DefaultQrRepository(api)
+}

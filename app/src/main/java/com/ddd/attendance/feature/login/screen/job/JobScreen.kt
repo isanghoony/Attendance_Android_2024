@@ -24,15 +24,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ddd.attendance.feature.login.LoginProcessViewModel
 import com.ddd.attendance.feature.login.ScreenName
-import com.ddd.attendance.designsystem.DDDNextButton
-import com.ddd.attendance.designsystem.DDDProgressbar
-import com.ddd.attendance.designsystem.DDDSelector
-import com.ddd.attendance.designsystem.DDDText
-import com.ddd.attendance.designsystem.DDDTopBar
-import com.ddd.attendance.designsystem.TopBarType
-import com.ddd.attendance.ui.theme.DDD_BLACK
-import com.ddd.attendance.ui.theme.DDD_NEUTRAL_GRAY_20
-import com.ddd.attendance.ui.theme.DDD_WHITE
+import com.ddd.attendance.core.designsystem.DDDNextButton
+import com.ddd.attendance.core.designsystem.DDDProgressbar
+import com.ddd.attendance.core.designsystem.DDDSelector
+import com.ddd.attendance.core.designsystem.DDDText
+import com.ddd.attendance.core.designsystem.DDDTopBar
+import com.ddd.attendance.core.designsystem.TopBarType
+import com.ddd.attendance.core.ui.theme.DDD_BLACK
+import com.ddd.attendance.core.ui.theme.DDD_NEUTRAL_GRAY_20
+import com.ddd.attendance.core.ui.theme.DDD_WHITE
 
 @Composable
 fun JobScreen(
