@@ -9,12 +9,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ddd.attendance.core.ui.theme.DDD_BLACK
 import com.ddd.attendance.feature.login.screen.affiliation.AffiliationScreen
 import com.ddd.attendance.feature.login.screen.invitationcode.InvitationCodeScreen
 import com.ddd.attendance.feature.login.screen.job.JobScreen
 import com.ddd.attendance.feature.login.screen.login.LoginScreen
 import com.ddd.attendance.feature.login.screen.name.NameScreen
-import com.ddd.attendance.core.ui.theme.DDD_BLACK
 
 @Composable
 fun LoginProcessScreen() {

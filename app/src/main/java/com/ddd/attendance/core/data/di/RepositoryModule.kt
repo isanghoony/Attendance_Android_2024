@@ -1,7 +1,10 @@
 package com.ddd.attendance.core.data.di
 
+import com.ddd.attendance.core.data.repository.DefaultMemberRepository
 import com.ddd.attendance.core.data.repository.DefaultQrRepository
+import com.ddd.attendance.core.domain.repository.MemberRepository
 import com.ddd.attendance.core.domain.repository.QrRepository
+import com.ddd.attendance.core.network.service.MemberApiService
 import com.ddd.attendance.core.network.service.QrApiService
 import dagger.Module
 import dagger.Provides
@@ -15,4 +18,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideQrRepository(api: QrApiService): QrRepository = DefaultQrRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideMemberRepository(api: MemberApiService): MemberRepository = DefaultMemberRepository(api)
 }

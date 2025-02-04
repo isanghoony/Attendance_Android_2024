@@ -1,4 +1,4 @@
-package com.ddd.attendance.feature.main
+package com.ddd.attendance.feature.main.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -8,8 +8,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ddd.attendance.feature.main.screen.admin.AdminScreen
-import com.ddd.attendance.feature.main.screen.member.MemberScreen
+import com.ddd.attendance.feature.admin.screen.AdminScreen
+import com.ddd.attendance.feature.main.MainViewModel
+import com.ddd.attendance.feature.member.screen.MemberScreen
 
 @Composable
 fun MainScreen() {

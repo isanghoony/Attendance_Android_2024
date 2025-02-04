@@ -1,6 +1,8 @@
 package com.ddd.attendance.core.domain.di
 
+import com.ddd.attendance.core.domain.repository.MemberRepository
 import com.ddd.attendance.core.domain.repository.QrRepository
+import com.ddd.attendance.core.domain.usecase.GetMemberAttendanceUseCase
 import com.ddd.attendance.core.domain.usecase.QrDecodeUseCase
 import com.ddd.attendance.core.domain.usecase.QrEncodeUseCase
 import dagger.Module
@@ -23,4 +25,10 @@ object DomainModule {
     fun provideQrDecodeUseCase(
         repository: QrRepository
     ): QrDecodeUseCase = QrDecodeUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetMemberAttendanceUseCase(
+        repository: MemberRepository
+    ): GetMemberAttendanceUseCase = GetMemberAttendanceUseCase(repository)
 }

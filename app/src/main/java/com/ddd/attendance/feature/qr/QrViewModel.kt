@@ -9,6 +9,7 @@ import com.ddd.attendance.core.model.qr.QrGenerateUiState
 import com.ddd.attendance.core.model.qr.QrScanUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,16 +21,18 @@ class QrViewModel @Inject constructor(
     private val qrDecodeUseCase: QrDecodeUseCase
 ) : ViewModel() {
     private val _qrGenerateUiState = MutableStateFlow<QrGenerateUiState>(QrGenerateUiState.Loading)
-    val qrGenerateUiState = _qrGenerateUiState.asStateFlow()
+    val qrGenerateUiState: StateFlow<QrGenerateUiState> = _qrGenerateUiState.asStateFlow()
 
     private val _qrScanUiState = MutableStateFlow<QrScanUiState>(QrScanUiState.Loading)
-    val qrScanUiState = _qrScanUiState.asStateFlow()
+    val qrScanUiState: StateFlow<QrScanUiState> = _qrScanUiState.asStateFlow()
 
     fun generateQr(userId: String) {
         viewModelScope.launch {
             _qrGenerateUiState.value = QrGenerateUiState.Loading
             try {
-                val data = qrEncodeUseCase(userId)
+                val data = qrEncodeUseCase(
+                    userId = userId
+                )
                 _qrGenerateUiState.value = QrGenerateUiState.Success(
                     qrString = data.qrString
                 )
@@ -43,7 +46,9 @@ class QrViewModel @Inject constructor(
         viewModelScope.launch {
             _qrScanUiState.value = QrScanUiState.Loading
             try {
-                val data = qrDecodeUseCase(qrString)
+                val data = qrDecodeUseCase(
+                    qrString = qrString
+                )
                 _qrScanUiState.value = QrScanUiState.Success(
                     userId = data.userId,
                     timeStamp = data.timestamp

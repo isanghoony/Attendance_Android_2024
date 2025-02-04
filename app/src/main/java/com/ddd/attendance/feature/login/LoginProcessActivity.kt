@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
-import com.ddd.attendance.feature.main.MainScreen
 import com.ddd.attendance.core.ui.theme.AttendanceTheme
 import com.ddd.attendance.core.ui.theme.DDD_BLACK
 import dagger.hilt.android.AndroidEntryPoint

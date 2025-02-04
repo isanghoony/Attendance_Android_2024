@@ -32,8 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.ddd.attendance.feature.login.LoginProcessViewModel
-import com.ddd.attendance.feature.login.ScreenName
 import com.ddd.attendance.core.designsystem.DDDNextButton
 import com.ddd.attendance.core.designsystem.DDDText
 import com.ddd.attendance.core.designsystem.DDDTopBar
@@ -43,6 +41,8 @@ import com.ddd.attendance.core.ui.theme.DDD_BLUE_100
 import com.ddd.attendance.core.ui.theme.DDD_ERROR
 import com.ddd.attendance.core.ui.theme.DDD_NEUTRAL_RED
 import com.ddd.attendance.core.ui.theme.DDD_WHITE
+import com.ddd.attendance.feature.login.LoginProcessViewModel
+import com.ddd.attendance.feature.login.ScreenName
 
 @Composable
 fun InvitationCodeScreen(

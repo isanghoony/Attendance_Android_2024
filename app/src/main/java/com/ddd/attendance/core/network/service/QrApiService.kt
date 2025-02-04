@@ -1,10 +1,10 @@
 package com.ddd.attendance.core.network.service
 
-import com.ddd.attendance.core.model.qr.response.QrDecode
-import com.ddd.attendance.core.model.qr.response.QrEncode
-import com.ddd.attendance.core.model.qr.request.QrDecodeRequest
-import com.ddd.attendance.core.model.qr.request.QrEncodeRequest
-import com.ddd.attendance.core.network.response.ApiResponse
+import com.ddd.attendance.core.network.model.ApiResponse
+import com.ddd.attendance.core.network.model.qr.QrDecodeResponse
+import com.ddd.attendance.core.network.model.qr.QrEncodeResponse
+import com.ddd.attendance.core.network.model.qr.request.QrDecodeRequest
+import com.ddd.attendance.core.network.model.qr.request.QrEncodeRequest
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -16,7 +16,7 @@ interface QrApiService {
     @POST("qr/encode")
     suspend fun qrEncode(
         @Body request: QrEncodeRequest
-    ): ApiResponse<QrEncode>
+    ): ApiResponse<QrEncodeResponse>
 
     /**
      * ### QR 문자열 디코딩/검증
@@ -26,5 +26,5 @@ interface QrApiService {
     suspend fun qrDecode(
         /*@Header("Authorization") token: String,  // Bearer 토큰 포함*/
         @Body request: QrDecodeRequest
-    ): ApiResponse<QrDecode>
+    ): ApiResponse<QrDecodeResponse>
 }

@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import com.ddd.attendance.core.ui.theme.AttendanceTheme
 import com.ddd.attendance.core.ui.theme.DDD_BLACK
-import com.ddd.attendance.core.ui.theme.DDD_WHITE
+import com.ddd.attendance.feature.main.screen.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

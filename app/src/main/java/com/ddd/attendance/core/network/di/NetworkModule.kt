@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.ddd.attendance.BuildConfig
+import com.ddd.attendance.core.network.service.MemberApiService
 import com.ddd.attendance.core.network.service.QrApiService
 import com.google.gson.Gson
 import dagger.Module
@@ -96,6 +97,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideQrCodeApiService(retrofit: Retrofit): QrApiService {
+        return retrofit.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMemberApiService(retrofit: Retrofit): MemberApiService {
         return retrofit.create()
     }
 }

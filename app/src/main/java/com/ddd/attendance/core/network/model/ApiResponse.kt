@@ -1,4 +1,4 @@
-package com.ddd.attendance.core.network.response
+package com.ddd.attendance.core.network.model
 
 data class ApiResponse<T>(
     val code: Int,
