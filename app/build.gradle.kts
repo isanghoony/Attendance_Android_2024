@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(notation = libs.plugins.android.application)
     alias(notation = libs.plugins.jetbrains.kotlin.android)
@@ -25,12 +27,15 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            isDebuggable = true
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        release {
+            isDebuggable = false
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -41,6 +46,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -79,7 +85,16 @@ dependencies {
     implementation(dependencyNotation = libs.hilt.navigation.compose)
     ksp(dependencyNotation = libs.hilt.compiler)
     implementation(dependencyNotation = libs.retrofit2)
-    implementation(dependencyNotation = libs.converter.serialization)
+    implementation(dependencyNotation = libs.retrofit2.converter.gson)
+    implementation(dependencyNotation = libs.retrofit2.converter.scalars)
     implementation(dependencyNotation = libs.okhttp3)
+    implementation(dependencyNotation = libs.okhttp3.logging)
+    implementation(dependencyNotation = libs.gson)
+    implementation(dependencyNotation = libs.converter.serialization)
     implementation(dependencyNotation = libs.kotlin.serialization)
+
+    implementation(dependencyNotation = libs.glide.core)
+
+    debugImplementation(dependencyNotation = libs.chucker.debug)
+    releaseImplementation(dependencyNotation = libs.chucker.release)
 }

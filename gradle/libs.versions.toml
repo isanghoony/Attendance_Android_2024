@@ -10,14 +10,19 @@ androidxNavigation = "2.8.1"
 activityCompose = "1.9.2"
 composeBom = "2024.09.02"
 ksp = "2.0.20-1.0.25"
-retrofit2 = "2.11.0"
-okhttp3 = "5.0.0-alpha.14"
 googleHilt = "2.52"
 kotlinSerializationVersion = "1.7.1"
 hiltNavigationVersion = "1.2.0"
 material3 = "1.3.1"
 camera = "1.4.1"
 zxing = "3.5.1"
+gson = "2.12.1"
+retrofit2 = "2.11.0"
+okhttp3 = "5.0.0-alpha.14"
+retrofitGson = "2.11.0"
+retrofitScalars = "2.11.0"
+chucker = "4.1.0"
+glide = "5.0.0-rc01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,11 +47,18 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "googleHilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "googleHilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationVersion" }
-retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
-okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerializationVersion" }
 converter-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit2" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxing" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
+retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitGson" }
+retrofit2-converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofitScalars" }
+okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
+okhttp3-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp3" }
+chucker-debug = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
+chucker-release = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
+glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
