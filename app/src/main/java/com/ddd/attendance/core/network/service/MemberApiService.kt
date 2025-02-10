@@ -11,7 +11,7 @@ interface MemberApiService {
      * 특정 회원의 출석 정보를 조회
      */
     @GET("/members/{member_id}/attendance")
-    suspend fun getMemberAttendance(
+    fun getMemberAttendance(
         @Path("member_id") memberId: String
     ): ApiResponse<MemberAttendanceResponse>
 }
